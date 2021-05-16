@@ -30,12 +30,16 @@ namespace Supermarket.API
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<AppDbContext>(options => {
+            services.AddDbContext<AppDbContext>(options =>
+            {
                 //options.UseSqlite(Configuration.GetConnectionString("DevConnection")); // Sqlite
                 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
             });
 
             services.AddControllers();
+            // using System.Text.Json -> doesn't have a reference looping treatment for now, using JsonIgnoreAttribute to handle this
+            //services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Supermarket.API", Version = "v1" });

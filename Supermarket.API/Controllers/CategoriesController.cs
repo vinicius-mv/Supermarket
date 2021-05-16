@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Supermarket.API.Controllers
 {
@@ -24,6 +26,22 @@ namespace Supermarket.API.Controllers
         public ActionResult<IEnumerable<Category>> GetAll()
         {
             return _context.Categories.AsNoTracking().ToList();
+        }
+
+        [HttpGet("products")]
+        public ActionResult<IEnumerable<object>> GetAllWithProducts()
+        {
+            var categories = _context.Categories.AsNoTracking().ToList();
+            var products = _context.Products.AsNoTracking().ToList();
+
+            //var categoriesProducts = from c in categories
+            //                         join p in products on c.CategoryId equals p.CategoryId into g
+            //                         select new { c.CategoryId, c.Name, c.ImageUrl, Products = g.ToList() };
+
+            var categoriesProducts = categories.GroupJoin(products, c => c.CategoryId, p => p.CategoryId, (c, ps) => 
+            new { c.CategoryId, c.Name, c.ImageUrl, Products = ps.ToList() });
+
+            return categoriesProducts.ToList();
         }
 
         [HttpGet("{id}", Name = "GetCategory")]
@@ -64,7 +82,7 @@ namespace Supermarket.API.Controllers
         {
             var category = _context.Categories.Find(id);
 
-            if(category == null)
+            if (category == null)
             {
                 return NotFound();
             }
