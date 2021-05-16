@@ -22,8 +22,7 @@ namespace Supermarket.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetAll()
         {
-            var products = _context.Products.AsNoTracking().ToList();
-            return products;
+            return _context.Products.AsNoTracking().ToList();
         }
 
         [HttpGet("{id}", Name = "GetProduct")]
