@@ -9,11 +9,19 @@ namespace Supermarket.API.Context
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Product> Products { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // relation (1 to many) Product - Category
+            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany();
+
+        }
+
     }
 }
