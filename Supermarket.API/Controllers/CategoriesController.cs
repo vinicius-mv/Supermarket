@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using System.Reflection;
+using Supermarket.API.ResourceModel;
 
 namespace Supermarket.API.Controllers
 {
@@ -25,11 +26,11 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Category>> Get()
+        public async Task<ActionResult<IEnumerable<Category>>> Get()
         {
             try
             {
-                return _context.Categories.AsNoTracking().ToList();
+                return await _context.Categories.AsNoTracking().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -38,21 +39,28 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet("Products")]
-        public ActionResult<IEnumerable<object>> GetWithProducts()
+        public async Task<ActionResult<IEnumerable<CategoryProduct>>> GetWithProducts()
         {
             try
             {
-                var categories = _context.Categories.AsNoTracking().ToList();
-                var products = _context.Products.AsNoTracking().ToList();
+                var categories = await _context.Categories.AsNoTracking().ToListAsync();
+                var products = await _context.Products.AsNoTracking().ToListAsync();
 
                 //var categoriesProducts = from c in categories
                 //                         join p in products on c.CategoryId equals p.CategoryId into g
-                //                         select new { c.CategoryId, c.Name, c.ImageUrl, Products = g.ToList() };
+                //                         select new CategoryProduct
+                //                         { CategoryId = c.CategoryId, Name = c.Name, ImageUrl = c.ImageUrl, Products = g.ToHashSet() };
 
-                var categoriesProducts = categories.GroupJoin(products, c => c.CategoryId, p => p.CategoryId, (c, ps) =>
-                new { c.CategoryId, c.Name, c.ImageUrl, Products = ps.ToList() });
+                var categoriesAndProducts = categories.GroupJoin(products, c => c.CategoryId, p => p.CategoryId, (c, ps) =>
+                new CategoryProduct()
+                {
+                    CategoryId = c.CategoryId,
+                    Name = c.Name,
+                    ImageUrl = c.ImageUrl,
+                    Products = ps.ToHashSet()
+                }).ToList();
 
-                return categoriesProducts.ToList();
+                return categoriesAndProducts;
             }
             catch (Exception ex)
             {
@@ -61,11 +69,11 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet("{id}", Name = "CategoriesGetById")]
-        public ActionResult<Category> GetById(int id)
+        public async Task<ActionResult<Category>> GetById(int id)
         {
             try
             {
-                var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+                var category = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
                 if (category == null)
                 {
                     return NotFound($"CategoryId '{id}' not found");
@@ -79,23 +87,23 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Category> Post([FromBody] Category category)
+        public async Task<ActionResult<Category>> Post([FromBody] Category category)
         {
             try
             {
-                _context.Categories.Add(category);
-                _context.SaveChanges();
+                await _context.Categories.AddAsync(category);
+                await _context.SaveChangesAsync();
 
                 return new CreatedAtRouteResult("CategoriesGetById", new { id = category.CategoryId }, category);
             }
             catch (Exception ex)
             {
-                return DefaultErrorMessage (ex);
+                return DefaultErrorMessage(ex);
             }
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Category category)
+        public async Task<ActionResult> Put(int id, [FromBody] Category category)
         {
             try
             {
@@ -104,7 +112,7 @@ namespace Supermarket.API.Controllers
                     return BadRequest($"Body id: '{category.CategoryId}' and request url id '{id}' doesn't match");
                 }
                 _context.Entry(category).State = EntityState.Modified;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Ok($"Category {category.Name} was updated.");
             }
             catch (Exception ex)
@@ -116,7 +124,7 @@ namespace Supermarket.API.Controllers
 
 
         [HttpDelete("{id}")]
-        public ActionResult<Category> Delete(int id)
+        public async Task<ActionResult<Category>> Delete(int id)
         {
             try
             {
@@ -127,7 +135,7 @@ namespace Supermarket.API.Controllers
                 }
                 _context.Attach(category);
                 _context.Remove(category);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return category;
             }
             catch (Exception ex)

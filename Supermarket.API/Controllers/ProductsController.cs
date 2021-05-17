@@ -22,11 +22,11 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> Get()
+        public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
             try
             {
-                return _context.Products.AsNoTracking().ToList();
+                return await _context.Products.AsNoTracking().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -35,16 +35,16 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet("{id}", Name = "ProductsGetById")]
-        public ActionResult<Product> GetById(int id)
+        public async Task<ActionResult<Product>> GetById(int id)
         {
             try
             {
-                var product = _context.Products.AsNoTracking().FirstOrDefault(p => p.ProductId == id);
+                var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.ProductId == id);
                 if (product == null)
                 {
                     return NotFound($"ProductId '{id}' not found");
                 }
-                return product;
+                return Ok(product);
             }
             catch (Exception ex)
             {
@@ -53,14 +53,14 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Product product)
+        public async Task<ActionResult> Post([FromBody] Product product)
         {
             try
             {
                 // since AspNetCore 2.1 not necessary, It's always checeked in methods in classes marked with [ApiController]
                 //if (!ModelState.IsValid) { return BadRequest(ModelState); }
                 _context.Products.Add(product);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return new CreatedAtRouteResult("ProductsGetById", new { id = product.ProductId }, product);
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Product product)
+        public async Task<ActionResult> Put(int id, [FromBody] Product product)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace Supermarket.API.Controllers
                     return BadRequest($"Body id: '{product.ProductId}' and request url id '{id}' doesn't match");
                 }
                 _context.Entry(product).State = EntityState.Modified;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception ex)
@@ -89,7 +89,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult<Product> Delete(int id)
+        public async Task<ActionResult<Product>> Delete(int id)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace Supermarket.API.Controllers
                 }
                 _context.Products.Attach(product);
                 _context.Products.Remove(product);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return product;
             }
             catch (Exception ex)

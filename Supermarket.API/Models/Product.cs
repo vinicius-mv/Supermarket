@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Supermarket.API.Models
 {
     [Table("Products")]
-    public class Product
+    public class Product : IComparable<Product>, IEquatable<Product>
     {
         [Key]
         public int ProductId { get; set; }
@@ -31,5 +31,15 @@ namespace Supermarket.API.Models
         public int CategoryId { get; set; }
         [JsonIgnore]
         public Category Category { get; set; }
+
+        public int CompareTo(Product other)
+        {
+            return ProductId.CompareTo(other.CategoryId);
+        }
+
+        public bool Equals(Product other)
+        {
+            return ProductId.Equals(other.ProductId);
+        }
     }
 }

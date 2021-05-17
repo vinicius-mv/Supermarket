@@ -32,8 +32,8 @@ namespace Supermarket.API
             string mySqlConnection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(options =>
             {
-                //options.UseSqlite(Configuration.GetConnectionString("DevConnection")); // Sqlite
-                options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
+                //options.UseSqlite(Configuration.GetConnectionString("DevConnection")); // Sqlite // old Pomelo versions
+                options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));   // get Connection with new Pomelo
             });
 
             services.AddControllers();
@@ -56,7 +56,7 @@ namespace Supermarket.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Supermarket.API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
