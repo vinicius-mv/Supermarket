@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Supermarket.API.Models
 {
     [Table("Products")]
-    public class Product : IComparable<Product>, IEquatable<Product>
+    public class Product : IComparable<Product>, IEquatable<Product>, IValidatableObject
     {
         [Key]
         public int ProductId { get; set; }
@@ -35,6 +35,7 @@ namespace Supermarket.API.Models
         [JsonIgnore]
         public Category Category { get; set; }
 
+
         public int CompareTo(Product other)
         {
             return ProductId.CompareTo(other.CategoryId);
@@ -43,6 +44,24 @@ namespace Supermarket.API.Models
         public bool Equals(Product other)
         {
             return ProductId.Equals(other.ProductId);
+        }
+
+        // useful for complex validation between different properties
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            const double stockValueLimit = 1_000_000.0;
+            if (Convert.ToDouble(this.Price) * this.UnitsInStock > stockValueLimit)
+            {
+                yield return new ValidationResult($"Invalid stock value (UnitsInStock * Price), It must be less than {stockValueLimit:C}",
+                    new string[] { nameof(this.UnitsInStock), nameof(this.Price) });
+            }
+
+            const decimal minimumPriceFoodTakeout = 10m;
+            if (this.CategoryId == 3 && this.Price < minimumPriceFoodTakeout)
+            {
+                yield return new ValidationResult($"Invalid Price, minimum price of this category is {minimumPriceFoodTakeout:C} ",
+                    new string[] { nameof(this.Price) });
+            }
         }
     }
 }
