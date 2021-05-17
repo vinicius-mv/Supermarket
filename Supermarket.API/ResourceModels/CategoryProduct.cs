@@ -1,7 +1,7 @@
 ﻿using Supermarket.API.Models;
 using System.Collections.Generic;
 
-namespace Supermarket.API.ResourceModel
+namespace Supermarket.API.ResourceModels
 {
     public class CategoryProduct
     {

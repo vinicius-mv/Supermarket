@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using System.Reflection;
-using Supermarket.API.ResourceModel;
+using Supermarket.API.ResourceModels;
 
 namespace Supermarket.API.Controllers
 {
