@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Supermarket.API.Validations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,6 +15,7 @@ namespace Supermarket.API.Models
         [Key]
         public int ProductId { get; set; }
         [Required(ErrorMessage = "Name is required")]
+        [FirstLetterUpper]
         [StringLength(80, MinimumLength = 5, ErrorMessage = "Name must be between 5 and 80 characters")]
         public string Name { get; set; }
         [Required]
