@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Context;
+using Supermarket.API.Filters;
 using Supermarket.API.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult<IEnumerable<Product>>> Get()
         {
             try

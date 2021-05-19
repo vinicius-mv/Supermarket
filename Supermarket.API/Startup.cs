@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Supermarket.API.Context;
+using Supermarket.API.Filters;
 using Supermarket.API.Models;
 
 namespace Supermarket.API
@@ -29,7 +30,7 @@ namespace Supermarket.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string mySqlConnection = Configuration.GetConnectionString("DefaultConnection");
+            string mySqlConnection = Configuration["ConnectionStrings:DefaultConnection"];
             services.AddDbContext<AppDbContext>(options =>
             {
                 //options.UseSqlite(Configuration.GetConnectionString("DevConnection")); // Sqlite // old Pomelo versions
@@ -44,6 +45,8 @@ namespace Supermarket.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Supermarket.API", Version = "v1" });
             });
+
+            services.AddScoped<ApiLoggingFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
