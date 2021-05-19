@@ -28,6 +28,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
+
                 return await _context.Products.AsNoTracking().ToListAsync();
             }
             catch (Exception ex)
@@ -112,9 +113,9 @@ namespace Supermarket.API.Controllers
                 return DefaultErrorMessage(ex);
             }
         }
-        private ActionResult DefaultErrorMessage(Exception ex)
+        private ActionResult DefaultErrorMessage(Exception ex, [System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"{ex.GetType()}: error on {this.GetType().Name} - {MethodBase.GetCurrentMethod().Name}");
+            return StatusCode(StatusCodes.Status500InternalServerError, $"{ex.GetType()}: error on {this.GetType().Name} - {memberName}");
         }
     }
 }

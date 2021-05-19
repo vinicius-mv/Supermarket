@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using Supermarket.API.ResourceModels;
+using System.Diagnostics;
 
 namespace Supermarket.API.Controllers
 {
@@ -144,9 +145,9 @@ namespace Supermarket.API.Controllers
             }
         }
 
-        private ActionResult DefaultErrorMessage(Exception ex)
+        private ActionResult DefaultErrorMessage(Exception ex, [System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"{ex.GetType()}: error on {this.GetType().Name} - {MethodBase.GetCurrentMethod().Name}");
+            return StatusCode(StatusCodes.Status500InternalServerError, $"{ex.GetType()}: error on {this.GetType().Name} - {memberName}");
         }
     }
 }
