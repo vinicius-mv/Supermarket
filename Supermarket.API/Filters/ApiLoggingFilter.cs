@@ -22,7 +22,7 @@ namespace Supermarket.API.Filters
             {
                 var controllerName = (string)context.ActionDescriptor.RouteValues["controller"];
                 var actionName = (string)context.ActionDescriptor.RouteValues["action"];
-                _logger.LogInformation($"{DateTime.Now} : Executing {controllerName} - {actionName} ");
+                _logger.LogInformation($"{DateTime.Now}: Executing - {controllerName} - {actionName}");
             }
             catch (Exception ex)
             {
@@ -35,7 +35,7 @@ namespace Supermarket.API.Filters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogInformation($"{DateTime.Now} : Finished ");
+            _logger.LogDebug($"{DateTime.Now}: Action Finished ");
         }
 
 

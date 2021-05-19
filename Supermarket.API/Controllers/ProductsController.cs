@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Supermarket.API.Context;
 using Supermarket.API.Filters;
 using Supermarket.API.Models;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace Supermarket.API.Controllers
 {
@@ -17,9 +19,12 @@ namespace Supermarket.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public ProductsController(AppDbContext context)
+        private readonly ILogger<ProductsController> _logger;
+
+        public ProductsController(AppDbContext context, ILogger<ProductsController> logger)
         {
-            _context = context;
+           _context = context;
+           _logger = logger;
         }
 
         [HttpGet]
@@ -38,6 +43,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet("{id}", Name = "ProductsGetById")]
+        [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult<Product>> GetById(int id)
         {
             try
@@ -45,6 +51,7 @@ namespace Supermarket.API.Controllers
                 var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.ProductId == id);
                 if (product == null)
                 {
+                    _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
                     return NotFound($"ProductId '{id}' not found");
                 }
                 return Ok(product);
@@ -56,6 +63,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult> Post([FromBody] Product product)
         {
             try
@@ -73,12 +81,14 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult> Put(int id, [FromBody] Product product)
         {
             try
             {
                 if (id != product.ProductId)
                 {
+                    _logger.LogInformation($"{DateTime.Now}: BadRequest '{id}', '{JsonSerializer.Serialize(product)}'");
                     return BadRequest($"Body id: '{product.ProductId}' and request url id '{id}' doesn't match");
                 }
                 _context.Entry(product).State = EntityState.Modified;
@@ -92,6 +102,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult<Product>> Delete(int id)
         {
             try
@@ -101,6 +112,7 @@ namespace Supermarket.API.Controllers
 
                 if (product == null)
                 {
+                    _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
                     return NotFound();
                 }
                 _context.Products.Attach(product);
@@ -115,6 +127,8 @@ namespace Supermarket.API.Controllers
         }
         private ActionResult DefaultErrorMessage(Exception ex, [System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
+            _logger.LogError($"{ex.StackTrace}");
+            _logger.LogError($"{DateTime.Now}: {ex.GetType()} - {ex.Message}");
             return StatusCode(StatusCodes.Status500InternalServerError, $"{ex.GetType()}: error on {this.GetType().Name} - {memberName}");
         }
     }
