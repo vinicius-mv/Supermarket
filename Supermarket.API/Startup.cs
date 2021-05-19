@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Supermarket.API.Context;
+using Supermarket.API.Extensions;
 using Supermarket.API.Filters;
 using Supermarket.API.Models;
 
@@ -58,7 +59,6 @@ namespace Supermarket.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Supermarket.API v1"));
             }
-
             //app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -69,6 +69,9 @@ namespace Supermarket.API
             {
                 endpoints.MapControllers();
             });
+
+            // add middleware to handle exceptions
+            app.ConfigureExceptionHandler();
         }
     }
 }
