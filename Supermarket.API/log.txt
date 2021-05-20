@@ -1,0 +1,9 @@
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:00:55 - Executing - Categories - Post
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:10 - Executing - Categories - Get
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:26 - Executing - Categories - Delete
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:49 - Executing - Categories - Get
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:56 - Executing - Categories - GetWithProducts

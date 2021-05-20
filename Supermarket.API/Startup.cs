@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using Supermarket.API.Context;
 using Supermarket.API.Extensions;
 using Supermarket.API.Filters;
+using Supermarket.API.Logging;
 using Supermarket.API.Models;
 
 namespace Supermarket.API
@@ -47,11 +48,12 @@ namespace Supermarket.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Supermarket.API", Version = "v1" });
             });
 
+            // filter with custom logging service
             services.AddScoped<ApiLoggingFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -72,6 +74,21 @@ namespace Supermarket.API
 
             // add middleware to handle exceptions
             app.ConfigureExceptionHandler();
+
+            // defining multiple loggers level and color
+            loggerFactory.AddColoredConsoleLogger();
+            loggerFactory.AddColoredConsoleLogger(c =>
+            {
+                c.LogLevel = LogLevel.Debug;
+                c.Color = ConsoleColor.Gray;
+                c.IsWritingToFile = false;
+            });
+            loggerFactory.AddColoredConsoleLogger(c =>
+            {
+                c.LogLevel = LogLevel.Information;
+                c.Color = ConsoleColor.Blue;
+                c.IsWritingToFile = true;
+            });
         }
     }
 }

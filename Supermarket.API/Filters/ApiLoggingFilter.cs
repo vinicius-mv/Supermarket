@@ -22,22 +22,18 @@ namespace Supermarket.API.Filters
             {
                 var controllerName = (string)context.ActionDescriptor.RouteValues["controller"];
                 var actionName = (string)context.ActionDescriptor.RouteValues["action"];
-                _logger.LogInformation($"{DateTime.Now}: Executing - {controllerName} - {actionName}");
+                _logger.LogInformation($"{DateTime.Now} - Executing - {controllerName} - {actionName}");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message, ex);
                 throw;
             }
-
-
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogDebug($"{DateTime.Now}: Action Finished ");
+            _logger.LogDebug($"{DateTime.Now} - Action Finished");
         }
-
-
     }
 }
