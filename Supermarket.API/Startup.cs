@@ -17,6 +17,7 @@ using Supermarket.API.Extensions;
 using Supermarket.API.Filters;
 using Supermarket.API.Logging;
 using Supermarket.API.Models;
+using Supermarket.API.Repository;
 
 namespace Supermarket.API
 {
@@ -50,6 +51,8 @@ namespace Supermarket.API
 
             // filter with custom logging service
             services.AddScoped<ApiLoggingFilter>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

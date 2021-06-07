@@ -1,0 +1,25 @@
+﻿[*.cs]
+
+# Default severity for analyzer diagnostics with category 'Style'
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+
+# IDE0008: Use explicit type
+dotnet_diagnostic.IDE0008.severity = silent
+
+# RCS1169: Make field read-only.
+dotnet_diagnostic.RCS1169.severity = silent
+
+# IDE0044: Add readonly modifier
+dotnet_diagnostic.IDE0044.severity = silent
+
+# IDE0005: Using directive is unnecessary.
+dotnet_diagnostic.IDE0005.severity = suggestion
+
+# CS0649: Field 'UnitOfWork._productRepository' is never assigned to, and will always have its default value null
+dotnet_diagnostic.CS0649.severity = silent
+
+# IDE0003: Remove qualification
+dotnet_diagnostic.IDE0003.severity = suggestion
+
+# IDE0058: Expression value is never used
+dotnet_diagnostic.IDE0058.severity = suggestion

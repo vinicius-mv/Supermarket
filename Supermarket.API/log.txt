@@ -7,3 +7,129 @@ Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:10
 Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:26 - Executing - Categories - Delete
 Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:49 - Executing - Categories - Get
 Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 19/05/2021 23:01:56 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Microsoft.Hosting.Lifetime - Application is shutting down...
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 20/05/2021 00:22:30 - Executing - Products - Get
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 22/05/2021 01:02:41 - Executing - Products - Get
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 22/05/2021 01:31:42 - Executing - Products - Get
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 22/05/2021 01:32:05 - Executing - Products - GetOrderedByPrice
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 02/06/2021 23:31:35 - Executing - Categories - Get
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:25:52 - Executing - Products - Get
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:27:37 - Executing - Products - GetById
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:27:48 - Executing - Products - GetById
+Information - 0 - Supermarket.API.Controllers.ProductsController - 06/06/2021 22:27:48: NotFound '7'
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:28:13 - Executing - Products - GetOrderedByPrice
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:31:02 - Executing - Products - Post
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:33:06 - Executing - Products - Put
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:33:33 - Executing - Products - Delete
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:34:27 - Executing - Categories - Get
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:34:36 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:34:51 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:35:53 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:36:22 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:36:29 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:52:54 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:53:09 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:56:07 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:58:17 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:58:23 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 22:58:36 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:05:27 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:06:09 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:19:05 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:19:15 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:19:31 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:19:40 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:19:59 - Executing - Categories - GetWithProducts
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:21:12 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:21:28 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:24:04 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:41:46 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:43:39 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:44:27 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:48:00 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:50:25 - Executing - Categories - GetWithProducts
+Information - 0 - Microsoft.Hosting.Lifetime - Now listening on: http://localhost:5000
+Information - 0 - Microsoft.Hosting.Lifetime - Application started. Press Ctrl+C to shut down.
+Information - 0 - Microsoft.Hosting.Lifetime - Hosting environment: Development
+Information - 0 - Microsoft.Hosting.Lifetime - Content root path: C:\workspace\Supermarket\Supermarket.API
+Information - 0 - Supermarket.API.Filters.ApiLoggingFilter - 06/06/2021 23:56:40 - Executing - Categories - GetWithProducts

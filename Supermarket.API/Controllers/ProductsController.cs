@@ -2,15 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Supermarket.API.Context;
 using Supermarket.API.Filters;
 using Supermarket.API.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Supermarket.API.Repository;
 
 namespace Supermarket.API.Controllers
 {
@@ -18,13 +16,13 @@ namespace Supermarket.API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(AppDbContext context, ILogger<ProductsController> logger)
+        public ProductsController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger)
         {
-           _context = context;
-           _logger = logger;
+            _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -33,8 +31,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-
-                return await _context.Products.AsNoTracking().ToListAsync();
+                return await _unitOfWork.ProductRepository.Get().ToListAsync();
             }
             catch (Exception ex)
             {
@@ -48,18 +45,26 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.ProductId == id);
+                var product = await _unitOfWork.ProductRepository.GetByFilter(p => p.ProductId == id);
                 if (product == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
                     return NotFound($"ProductId '{id}' not found");
                 }
-                return Ok(product);
+                return product;
             }
             catch (Exception ex)
             {
                 return DefaultErrorMessage(ex);
             }
+        }
+
+        [HttpGet("OrderByPrice")]
+        [ServiceFilter(typeof(ApiLoggingFilter))]
+        public async Task<ActionResult<IEnumerable<Product>>> GetOrderedByPrice()
+        {
+            var products = await _unitOfWork.ProductRepository.GetProductsOrderedByPrice();
+            return Ok(products);
         }
 
         [HttpPost]
@@ -70,8 +75,8 @@ namespace Supermarket.API.Controllers
             {
                 // since AspNetCore 2.1 not necessary, It's always checeked in methods in classes marked with [ApiController]
                 //if (!ModelState.IsValid) { return BadRequest(ModelState); }
-                _context.Products.Add(product);
-                await _context.SaveChangesAsync();
+                _unitOfWork.ProductRepository.Add(product);
+                await _unitOfWork.CommitAsync();
                 return new CreatedAtRouteResult("ProductsGetById", new { id = product.ProductId }, product);
             }
             catch (Exception ex)
@@ -91,8 +96,8 @@ namespace Supermarket.API.Controllers
                     _logger.LogInformation($"{DateTime.Now}: BadRequest '{id}', '{JsonSerializer.Serialize(product)}'");
                     return BadRequest($"Body id: '{product.ProductId}' and request url id '{id}' doesn't match");
                 }
-                _context.Entry(product).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                _unitOfWork.ProductRepository.Update(product);
+                await _unitOfWork.CommitAsync();
                 return Ok();
             }
             catch (Exception ex)
@@ -107,17 +112,15 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                //var product = _context.Products.FirstOrDefault(p => p.ProductId == id); // First: always request the database
-                var product = _context.Products.Find(id);   // Find: search for the entity in the context at first, then request database
+                var product = await _unitOfWork.ProductRepository.GetByFilter(p => p.ProductId == id);
 
                 if (product == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
                     return NotFound();
                 }
-                _context.Products.Attach(product);
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
+                _unitOfWork.ProductRepository.Delete(product);
+                await _unitOfWork.CommitAsync();
                 return product;
             }
             catch (Exception ex)

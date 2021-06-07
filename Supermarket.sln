@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supermarket.API", "Supermarket.API\Supermarket.API.csproj", "{56EEF6D1-E91B-4F57-848A-ED4B7603794E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Supermarket.API", "Supermarket.API\Supermarket.API.csproj", "{56EEF6D1-E91B-4F57-848A-ED4B7603794E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{05702782-4DCC-4378-B3F6-7AB2F39901EB}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,9 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{56EEF6D1-E91B-4F57-848A-ED4B7603794E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +32,11 @@ Global
 		{56EEF6D1-E91B-4F57-848A-ED4B7603794E}.Release|x64.Build.0 = Release|Any CPU
 		{56EEF6D1-E91B-4F57-848A-ED4B7603794E}.Release|x86.ActiveCfg = Release|Any CPU
 		{56EEF6D1-E91B-4F57-848A-ED4B7603794E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5E5B19F7-094D-4DC1-B883-BF04EFDD4070}
 	EndGlobalSection
 EndGlobal
