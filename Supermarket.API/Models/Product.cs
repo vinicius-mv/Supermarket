@@ -46,7 +46,7 @@ namespace Supermarket.API.Models
             return ProductId.Equals(other.ProductId);
         }
 
-        // useful for complex validation between different properties
+        // complex validation between different properties
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             const double stockValueLimit = 1_000_000.0;

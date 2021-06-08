@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Supermarket.API.Context;
+using Supermarket.API.Dtos.Mappings;
 using Supermarket.API.Extensions;
 using Supermarket.API.Filters;
 using Supermarket.API.Logging;
@@ -45,14 +47,19 @@ namespace Supermarket.API
             //services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Supermarket.API", Version = "v1" });
-            });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Supermarket.API", Version = "v1" }));
 
             // filter with custom logging service
             services.AddScoped<ApiLoggingFilter>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // AutoMapper - register and condig
+            var mappingConfig = new MapperConfiguration(mc =>
+                mc.AddProfile(new MappingProfile()));
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
