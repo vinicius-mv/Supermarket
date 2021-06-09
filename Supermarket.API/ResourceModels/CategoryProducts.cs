@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Supermarket.API.ResourceModels
 {
-    public class CategoryProduct
+    public class CategoryProducts
     {
         public int CategoryId { get; set; }
         public string Name { get; set; }

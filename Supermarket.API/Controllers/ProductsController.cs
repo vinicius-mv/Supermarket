@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Supermarket.API.Repository;
+using AutoMapper;
+using Supermarket.API.Dtos;
 
 namespace Supermarket.API.Controllers
 {
@@ -18,20 +20,24 @@ namespace Supermarket.API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ProductsController> _logger;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger)
+        public ProductsController(IUnitOfWork unitOfWork, ILogger<ProductsController> logger, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<Product>>> Get()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> Get()
         {
             try
             {
-                return await _unitOfWork.ProductRepository.Get().ToListAsync();
+                var products = await _unitOfWork.ProductRepository.Get().ToListAsync();
+
+                return _mapper.Map<List<ProductDto>>(products);
             }
             catch (Exception ex)
             {
@@ -41,7 +47,7 @@ namespace Supermarket.API.Controllers
 
         [HttpGet("{id}", Name = "ProductsGetById")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<Product>> GetById(int id)
+        public async Task<ActionResult<ProductDto>> GetById(int id)
         {
             try
             {
@@ -51,7 +57,7 @@ namespace Supermarket.API.Controllers
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
                     return NotFound($"ProductId '{id}' not found");
                 }
-                return product;
+                return _mapper.Map<ProductDto>(product);
             }
             catch (Exception ex)
             {
@@ -61,23 +67,24 @@ namespace Supermarket.API.Controllers
 
         [HttpGet("OrderByPrice")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<Product>>> GetOrderedByPrice()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetOrderedByPrice()
         {
             var products = await _unitOfWork.ProductRepository.GetProductsOrderedByPrice();
-            return Ok(products);
+            return Ok(_mapper.Map<List<ProductDto>>(products));
         }
 
         [HttpPost]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult> Post([FromBody] Product product)
+        public async Task<ActionResult> Post([FromBody] ProductDto productDto)
         {
             try
             {
                 // since AspNetCore 2.1 not necessary, It's always checeked in methods in classes marked with [ApiController]
                 //if (!ModelState.IsValid) { return BadRequest(ModelState); }
+                var product = _mapper.Map<Product>(productDto);
                 _unitOfWork.ProductRepository.Add(product);
                 await _unitOfWork.CommitAsync();
-                return new CreatedAtRouteResult("ProductsGetById", new { id = product.ProductId }, product);
+                return new CreatedAtRouteResult("ProductsGetById", new { id = productDto.ProductId }, productDto);
             }
             catch (Exception ex)
             {
@@ -87,17 +94,20 @@ namespace Supermarket.API.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult> Put(int id, [FromBody] Product product)
+        public async Task<ActionResult> Put(int id, [FromBody] ProductDto productDto)
         {
             try
             {
-                if (id != product.ProductId)
+                if (id != productDto.ProductId)
                 {
-                    _logger.LogInformation($"{DateTime.Now}: BadRequest '{id}', '{JsonSerializer.Serialize(product)}'");
-                    return BadRequest($"Body id: '{product.ProductId}' and request url id '{id}' doesn't match");
+                    _logger.LogInformation($"{DateTime.Now}: BadRequest '{id}', '{JsonSerializer.Serialize(productDto)}'");
+                    return BadRequest($"Body id: '{productDto.ProductId}' and request url id '{id}' doesn't match");
                 }
+
+                var product = _mapper.Map<Product>(productDto);
                 _unitOfWork.ProductRepository.Update(product);
                 await _unitOfWork.CommitAsync();
+
                 return Ok();
             }
             catch (Exception ex)
@@ -108,7 +118,7 @@ namespace Supermarket.API.Controllers
 
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<Product>> Delete(int id)
+        public async Task<ActionResult<ProductDto>> Delete(int id)
         {
             try
             {
@@ -121,7 +131,8 @@ namespace Supermarket.API.Controllers
                 }
                 _unitOfWork.ProductRepository.Delete(product);
                 await _unitOfWork.CommitAsync();
-                return product;
+
+                return _mapper.Map<ProductDto>(product);
             }
             catch (Exception ex)
             {

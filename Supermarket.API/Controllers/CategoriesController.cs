@@ -10,6 +10,8 @@ using Supermarket.API.ResourceModels;
 using Microsoft.Extensions.Logging;
 using Supermarket.API.Filters;
 using Supermarket.API.Repository;
+using Supermarket.API.Dtos;
+using AutoMapper;
 
 namespace Supermarket.API.Controllers
 {
@@ -19,20 +21,24 @@ namespace Supermarket.API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<CategoriesController> _logger;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(IUnitOfWork unitOfWork, ILogger<CategoriesController> logger)
+        public CategoriesController(IUnitOfWork unitOfWork, ILogger<CategoriesController> logger, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<Category>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> Get()
         {
             try
             {
-                return await _unitOfWork.CategoryRepository.Get().ToListAsync();
+                var category = await _unitOfWork.CategoryRepository.Get().ToListAsync();
+
+                return _mapper.Map<List<CategoryDto>>(category);
             }
             catch (Exception ex)
             {
@@ -42,13 +48,14 @@ namespace Supermarket.API.Controllers
 
         [HttpGet("Products")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<CategoryProduct>>> GetWithProducts()
+        public async Task<ActionResult<IEnumerable<CategoryProductsDto>>> GetWithProducts()
         {
             try
             {
-                var categoriesWithProducts = await _unitOfWork.CategoryRepository.GetCategoriesWithProducts();
+                var categoriesProducts = await _unitOfWork.CategoryRepository.GetCategoriesWithProducts();
+                var categoriesProductsDto = _mapper.Map<List<CategoryProductsDto>>(categoriesProducts);
 
-                return Ok(categoriesWithProducts);
+                return Ok(categoriesProductsDto);
             }
             catch (Exception ex)
             {
@@ -58,7 +65,7 @@ namespace Supermarket.API.Controllers
 
         [HttpGet("{id}", Name = "CategoriesGetById")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<Category>> GetById(int id)
+        public async Task<ActionResult<CategoryDto>> GetById(int id)
         {
             try
             {
@@ -68,7 +75,7 @@ namespace Supermarket.API.Controllers
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
                     return NotFound($"CategoryId '{id}' not found");
                 }
-                return category;
+                return _mapper.Map<CategoryDto>(category);
             }
             catch (Exception ex)
             {
@@ -78,14 +85,15 @@ namespace Supermarket.API.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<Category>> Post([FromBody] Category category)
+        public async Task<ActionResult<CategoryDto>> Post([FromBody] CategoryDto categoryDto)
         {
             try
             {
+                var category = _mapper.Map<Category>(categoryDto);
                 _unitOfWork.CategoryRepository.Add(category);
                 await _unitOfWork.CommitAsync();
 
-                return new CreatedAtRouteResult("CategoriesGetById", new { id = category.CategoryId }, category);
+                return new CreatedAtRouteResult("CategoriesGetById", new { id = categoryDto.CategoryId }, categoryDto);
             }
             catch (Exception ex)
             {
@@ -95,18 +103,19 @@ namespace Supermarket.API.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult> Put(int id, [FromBody] Category category)
+        public async Task<ActionResult> Put(int id, [FromBody] CategoryDto categoryDto)
         {
             try
             {
-                if (id != category.CategoryId)
+                if (id != categoryDto.CategoryId)
                 {
-                    _logger.LogInformation($"{DateTime.Now}: BadRequest '{id}', '{JsonSerializer.Serialize(category)}'");
-                    return BadRequest($"Body id: '{category.CategoryId}' and request url id '{id}' doesn't match");
+                    _logger.LogInformation($"{DateTime.Now}: BadRequest '{id}', '{JsonSerializer.Serialize(categoryDto)}'");
+                    return BadRequest($"Body id: '{categoryDto.CategoryId}' and request url id '{id}' doesn't match");
                 }
+                var category = _mapper.Map<Category>(categoryDto);
                 _unitOfWork.CategoryRepository.Add(category);
                 await _unitOfWork.CommitAsync();
-                return Ok($"Category {category.Name} was updated.");
+                return Ok($"Category {categoryDto.Name} was updated.");
             }
             catch (Exception ex)
             {
@@ -116,7 +125,7 @@ namespace Supermarket.API.Controllers
 
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<Category>> Delete(int id)
+        public async Task<ActionResult<CategoryDto>> Delete(int id)
         {
             try
             {
@@ -128,7 +137,7 @@ namespace Supermarket.API.Controllers
                 }
                 _unitOfWork.CategoryRepository.Delete(category);
                 await _unitOfWork.CommitAsync();
-                return Ok(category);
+                return Ok(_mapper.Map<CategoryDto>(category));
             }
             catch (Exception ex)
             {

@@ -14,9 +14,9 @@ namespace Supermarket.API.Repository
         {
         }
 
-        public async Task<IEnumerable<CategoryProduct>> GetCategoriesWithProducts()
+        public async Task<IEnumerable<CategoryProducts>> GetCategoriesWithProducts()
         {
-            var categoriesProducts = _context.Categories.Select(c => new CategoryProduct
+            var categoriesProducts = _context.Categories.Select(c => new CategoryProducts
             {
                 CategoryId = c.CategoryId,
                 Name = c.Name,

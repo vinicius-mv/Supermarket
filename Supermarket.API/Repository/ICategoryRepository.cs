@@ -7,6 +7,6 @@ namespace Supermarket.API.Repository
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<IEnumerable<CategoryProduct>> GetCategoriesWithProducts();
+        Task<IEnumerable<CategoryProducts>> GetCategoriesWithProducts();
     }
 }

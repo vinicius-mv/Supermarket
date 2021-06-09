@@ -12,6 +12,8 @@ namespace Supermarket.API.Dtos.Mappings
         public MappingProfile()
         {
             CreateMap<Product, ProductDto>().ReverseMap();
+
+            CreateMap<Category, CategoryDto>().ReverseMap();
         }
     }
 }
