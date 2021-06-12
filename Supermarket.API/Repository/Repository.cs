@@ -32,12 +32,15 @@ namespace Supermarket.API.Repository
             return _context.Set<T>().AsNoTracking();
         }
 
-        public async Task<T> Get(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetBy(Expression<Func<T, bool>> predicate = null)
         {
+            if (predicate == null)
+                predicate = (x) => true;
+
             return await _context.Set<T>().SingleOrDefaultAsync(predicate);
         }
 
-        public async Task<IList<T>> List(Expression<Func<T, bool>> predicate)
+        public async Task<IList<T>> ListBy(Expression<Func<T, bool>> predicate = null)
         {
             if (predicate == null)
                 predicate = (x) => true;

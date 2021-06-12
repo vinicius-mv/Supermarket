@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Models;
 using System;
 using System.Collections.Generic;
@@ -57,8 +56,12 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                IEnumerable<CategoryProducts> categoriesProducts = await _unitOfWork.CategoryRepository.GetCategoriesWithProducts(parameters);
-                IEnumerable<CategoryProductsDto> categoriesProductsDto = categoriesProducts.Select(cp => cp.ConvertToDto(_mapper)).AsEnumerable();
+                var categoriesProducts = await _unitOfWork.CategoryRepository.GetCategoriesWithProducts(parameters);
+
+                var paginationHeader = JsonSerializer.Serialize(categoriesProducts.GetMetadata());
+                Response.Headers.Add("X-Pagination", paginationHeader);
+
+                var categoriesProductsDto = categoriesProducts.Select(cp => cp.ConvertToDto(_mapper));
 
                 return Ok(categoriesProductsDto);
             }
@@ -74,7 +77,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var category = await _unitOfWork.CategoryRepository.Get(c => c.CategoryId == id);
+                var category = await _unitOfWork.CategoryRepository.GetBy(c => c.CategoryId == id);
                 if (category == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
@@ -134,7 +137,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var category = await _unitOfWork.CategoryRepository.Get(c => c.CategoryId == id);
+                var category = await _unitOfWork.CategoryRepository.GetBy(c => c.CategoryId == id);
                 if (category == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");

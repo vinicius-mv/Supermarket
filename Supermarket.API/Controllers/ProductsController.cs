@@ -55,7 +55,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var product = await _unitOfWork.ProductRepository.Get(p => p.ProductId == id);
+                var product = await _unitOfWork.ProductRepository.GetBy(p => p.ProductId == id);
                 if (product == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
@@ -126,7 +126,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var product = await _unitOfWork.ProductRepository.Get(p => p.ProductId == id);
+                var product = await _unitOfWork.ProductRepository.GetBy(p => p.ProductId == id);
 
                 if (product == null)
                 {
