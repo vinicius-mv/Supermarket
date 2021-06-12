@@ -20,8 +20,8 @@ namespace Supermarket.API.Filters
         {
             try
             {
-                var controllerName = (string)context.ActionDescriptor.RouteValues["controller"];
-                var actionName = (string)context.ActionDescriptor.RouteValues["action"];
+                var controllerName = context.ActionDescriptor.RouteValues["controller"];
+                var actionName = context.ActionDescriptor.RouteValues["action"];
                 _logger.LogInformation($"{DateTime.Now} - Executing - {controllerName} - {actionName}");
             }
             catch (Exception ex)

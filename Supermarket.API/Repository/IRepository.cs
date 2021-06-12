@@ -9,9 +9,9 @@ namespace Supermarket.API.Repository
     public interface IRepository<T>
     {
         IQueryable<T> Get();    // IQueryable allows async calls
-        Task<T> GetByFilter(Expression<Func<T, bool>> predicate);
+        Task<T> Get(Expression<Func<T, bool>> predicate);
 
-        Task<IList<T>> ListByFilter(Expression<Func<T, bool>> predicate);
+        Task<IList<T>> List(Expression<Func<T, bool>> predicate = null);
 
         // non-persistent methods
         void Add(T entity);

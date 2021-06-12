@@ -23,3 +23,9 @@ dotnet_diagnostic.IDE0003.severity = suggestion
 
 # IDE0058: Expression value is never used
 dotnet_diagnostic.IDE0058.severity = suggestion
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = silent
+
+# IDE0011: Add braces
+dotnet_diagnostic.IDE0011.severity = none

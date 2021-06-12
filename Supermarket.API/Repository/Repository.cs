@@ -32,14 +32,19 @@ namespace Supermarket.API.Repository
             return _context.Set<T>().AsNoTracking();
         }
 
-        public async Task<T> GetByFilter(Expression<Func<T, bool>> predicate)
+        public async Task<T> Get(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().SingleOrDefaultAsync(predicate);
         }
 
-        public async Task<IList<T>> ListByFilter(Expression<Func<T, bool>> predicate)
+        public async Task<IList<T>> List(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().Where(predicate).ToListAsync();
+            if (predicate == null)
+                predicate = (x) => true;
+
+            var query = _context.Set<T>().Where(predicate);
+
+            return await query.ToListAsync();
         }
 
         public void Update(T entity)

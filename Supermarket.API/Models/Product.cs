@@ -29,11 +29,7 @@ namespace Supermarket.API.Models
         public string ImageUrl { get; set; }
         public double UnitsInStock { get; set; }
         public DateTime RecordDate { get; set; }
-
         public int CategoryId { get; set; }
-        // ef nav
-        [JsonIgnore]
-        public Category Category { get; set; }
 
 
         public int CompareTo(Product other)

@@ -12,6 +12,8 @@ using Supermarket.API.Filters;
 using Supermarket.API.Repository;
 using Supermarket.API.Dtos;
 using AutoMapper;
+using System.Linq;
+using Supermarket.API.Pagination;
 
 namespace Supermarket.API.Controllers
 {
@@ -32,13 +34,16 @@ namespace Supermarket.API.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<CategoryDto>>> Get()
+        public async Task<ActionResult<IEnumerable<CategoryDto>>> Get([FromQuery] PaginationParameters parameters)
         {
             try
             {
-                var category = await _unitOfWork.CategoryRepository.Get().ToListAsync();
+                var categories = await _unitOfWork.CategoryRepository.GetCategories(parameters);
 
-                return _mapper.Map<List<CategoryDto>>(category);
+                var paginationHeader = JsonSerializer.Serialize(categories.GetMetadata());
+                Response.Headers.Add("X-Pagination", paginationHeader);
+
+                return _mapper.Map<List<CategoryDto>>(categories);
             }
             catch (Exception ex)
             {
@@ -46,14 +51,14 @@ namespace Supermarket.API.Controllers
             }
         }
 
-        [HttpGet("Products")]
+        [HttpGet("CategoryProducts")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<CategoryProductsDto>>> GetWithProducts()
+        public async Task<ActionResult<IEnumerable<CategoryProductsDto>>> GetWithProducts([FromQuery] PaginationParameters parameters)
         {
             try
             {
-                var categoriesProducts = await _unitOfWork.CategoryRepository.GetCategoriesWithProducts();
-                var categoriesProductsDto = _mapper.Map<List<CategoryProductsDto>>(categoriesProducts);
+                IEnumerable<CategoryProducts> categoriesProducts = await _unitOfWork.CategoryRepository.GetCategoriesWithProducts(parameters);
+                IEnumerable<CategoryProductsDto> categoriesProductsDto = categoriesProducts.Select(cp => cp.ConvertToDto(_mapper)).AsEnumerable();
 
                 return Ok(categoriesProductsDto);
             }
@@ -69,7 +74,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var category = await _unitOfWork.CategoryRepository.GetByFilter(c => c.CategoryId == id);
+                var category = await _unitOfWork.CategoryRepository.Get(c => c.CategoryId == id);
                 if (category == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
@@ -129,7 +134,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var category = await _unitOfWork.CategoryRepository.GetByFilter(c => c.CategoryId == id);
+                var category = await _unitOfWork.CategoryRepository.Get(c => c.CategoryId == id);
                 if (category == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");

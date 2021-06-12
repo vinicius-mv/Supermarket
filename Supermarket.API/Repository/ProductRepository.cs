@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Models;
+using Supermarket.API.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,13 @@ namespace Supermarket.API.Repository
         {
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategory(int categoryId)
+        public async Task<PagedList<Product>> GetProducts(PaginationParameters parameters)
         {
-            return await ListByFilter(p => p.CategoryId == categoryId);
+            var products = Get().OrderBy(p => p.ProductId);
+            return await PagedList<Product>.ToPagedList(products, parameters.PageNumber, parameters.PageSize);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsOrderedByPrice()
+        public async Task<IEnumerable<Product>> GetProductsByPrice()
         {
             return await Get().OrderBy(p => p.Price).ToListAsync();
         }

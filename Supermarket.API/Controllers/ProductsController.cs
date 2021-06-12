@@ -11,6 +11,7 @@ using System.Text.Json;
 using Supermarket.API.Repository;
 using AutoMapper;
 using Supermarket.API.Dtos;
+using Supermarket.API.Pagination;
 
 namespace Supermarket.API.Controllers
 {
@@ -31,11 +32,14 @@ namespace Supermarket.API.Controllers
 
         [HttpGet]
         [ServiceFilter(typeof(ApiLoggingFilter))]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> Get()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> Get([FromQuery] PaginationParameters parameters)
         {
             try
             {
-                var products = await _unitOfWork.ProductRepository.Get().ToListAsync();
+                var products = await _unitOfWork.ProductRepository.GetProducts(parameters);
+
+                var paginationHeader = JsonSerializer.Serialize(products.GetMetadata());
+                Response.Headers.Add("X-Pagination", paginationHeader);
 
                 return _mapper.Map<List<ProductDto>>(products);
             }
@@ -51,7 +55,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var product = await _unitOfWork.ProductRepository.GetByFilter(p => p.ProductId == id);
+                var product = await _unitOfWork.ProductRepository.Get(p => p.ProductId == id);
                 if (product == null)
                 {
                     _logger.LogInformation($"{DateTime.Now}: NotFound '{id}'");
@@ -69,7 +73,7 @@ namespace Supermarket.API.Controllers
         [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetOrderedByPrice()
         {
-            var products = await _unitOfWork.ProductRepository.GetProductsOrderedByPrice();
+            var products = await _unitOfWork.ProductRepository.GetProductsByPrice();
             return Ok(_mapper.Map<List<ProductDto>>(products));
         }
 
@@ -122,7 +126,7 @@ namespace Supermarket.API.Controllers
         {
             try
             {
-                var product = await _unitOfWork.ProductRepository.GetByFilter(p => p.ProductId == id);
+                var product = await _unitOfWork.ProductRepository.Get(p => p.ProductId == id);
 
                 if (product == null)
                 {

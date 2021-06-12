@@ -1,4 +1,5 @@
 ﻿using Supermarket.API.Models;
+using Supermarket.API.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,7 @@ namespace Supermarket.API.Repository
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<IEnumerable<Product>> GetProductsOrderedByPrice();
-
-        Task<IEnumerable<Product>> GetProductsByCategory(int categoryId);
+        Task<PagedList<Product>> GetProducts(PaginationParameters productsParameters);
+        Task<IEnumerable<Product>> GetProductsByPrice();
     }
 }

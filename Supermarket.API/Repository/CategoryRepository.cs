@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Controllers;
 using Supermarket.API.Models;
+using Supermarket.API.Pagination;
 using Supermarket.API.ResourceModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,17 +16,35 @@ namespace Supermarket.API.Repository
         {
         }
 
+        public Task<PagedList<Category>> GetCategories(PaginationParameters parameters)
+        {
+            var categories = Get().OrderBy(c => c.Name);
+            return PagedList<Category>.ToPagedList(categories, parameters.PageNumber, parameters.PageSize);
+        }
+
         public async Task<IEnumerable<CategoryProducts>> GetCategoriesWithProducts()
         {
-            var categoriesProducts = _context.Categories.Select(c => new CategoryProducts
+            var categories = await _context.Categories.ToListAsync();
+            var categoriesIds = categories.Select(c => c.CategoryId);
+
+            var products = await _context.Products.Where(p => categoriesIds.Contains(p.CategoryId)).ToListAsync();
+
+            var categoriesProducts = categories.Select(c => new CategoryProducts
             {
                 CategoryId = c.CategoryId,
                 Name = c.Name,
                 ImageUrl = c.ImageUrl,
-                Products = _context.Products.Where(p =>  p.CategoryId == c.CategoryId).ToList()
+                Products = products.Where(p => p.CategoryId == c.CategoryId).ToList()
             });
 
-            return await categoriesProducts.ToListAsync();
+            return categoriesProducts;
+        }
+
+
+
+        public Task<PagedList<CategoryProducts>> GetCategoriesWithProducts(PaginationParameters parameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }
