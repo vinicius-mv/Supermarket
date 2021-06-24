@@ -14,6 +14,7 @@ using AutoMapper;
 using System.Linq;
 using Supermarket.API.Pagination;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 
 namespace Supermarket.API.Controllers
 {
@@ -34,6 +35,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet]
+        [DisableCors]
         [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> Get([FromQuery] PaginationParameters parameters)
         {
@@ -74,6 +76,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet("{id}", Name = "CategoriesGetById")]
+        [DisableCors]
         [ServiceFilter(typeof(ApiLoggingFilter))]
         public async Task<ActionResult<CategoryDto>> GetById(int id)
         {

@@ -86,6 +86,11 @@ namespace Supermarket.API
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            // CORS
+            services.AddCors(opt =>
+                opt.AddPolicy("MyCorsPolicy", policy =>
+                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200", "http://www.apirequest.io")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,6 +109,8 @@ namespace Supermarket.API
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseCors("MyCorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
