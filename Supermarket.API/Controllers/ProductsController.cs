@@ -12,9 +12,11 @@ using Supermarket.API.Repository;
 using AutoMapper;
 using Supermarket.API.Dtos;
 using Supermarket.API.Pagination;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Supermarket.API.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase

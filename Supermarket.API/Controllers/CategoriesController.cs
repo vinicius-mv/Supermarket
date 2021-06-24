@@ -13,9 +13,11 @@ using Supermarket.API.Dtos;
 using AutoMapper;
 using System.Linq;
 using Supermarket.API.Pagination;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Supermarket.API.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/[controller]")]
     public class CategoriesController : ControllerBase

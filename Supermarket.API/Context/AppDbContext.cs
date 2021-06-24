@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Supermarket.API.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -18,6 +19,8 @@ namespace Supermarket.API.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Category>(ce =>
             {
                 ce.HasKey(c => c.CategoryId);
@@ -25,7 +28,7 @@ namespace Supermarket.API.Context
             });
 
             // relation (1 to many) Product - Category
-            modelBuilder.Entity<Product>(pe => 
+            modelBuilder.Entity<Product>(pe =>
             {
                 pe.HasKey(pe => pe.ProductId);
                 pe.Property(p => p.CategoryId).IsRequired();
