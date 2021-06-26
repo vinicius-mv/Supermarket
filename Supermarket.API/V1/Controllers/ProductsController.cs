@@ -11,13 +11,13 @@ using AutoMapper;
 using Supermarket.API.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Supermarket.API.Models;
-using Supermarket.API.V2.Dtos;
+using Supermarket.API.V1.Dtos;
 
-namespace Supermarket.API.V2.Controllers
+namespace Supermarket.API.V1.Controllers
 {
     [ApiController]
     [Route("api/v{v:apiVersion}/[controller]")]
-    [ApiVersion("2.0")]
+    [ApiVersion("1.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiConventionType(typeof(DefaultApiConventions))]
     public class ProductsController : ControllerBase

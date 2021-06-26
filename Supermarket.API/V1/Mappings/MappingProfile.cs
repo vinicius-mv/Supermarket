@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Supermarket.API.Models;
 using Supermarket.API.ResourceModels;
-using Supermarket.API.V2.Dtos;
+using Supermarket.API.V1.Dtos;
 
-namespace Supermarket.API.V2.Mappings
+namespace Supermarket.API.V1.Mappings
 {
     public class MappingProfile : Profile
     {

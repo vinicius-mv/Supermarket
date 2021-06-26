@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Supermarket.API.V2.Dtos;
+using Supermarket.API.V1.Dtos;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Supermarket.API.V2.Controllers
+namespace Supermarket.API.V1.Controllers
 {
 
     [ApiController]
     [Route("api/v{v:apiVersion}/[controller]")]
-    [ApiVersion("2.0")]
+    [ApiVersion("1.0")]
     public class AuthorizeController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
