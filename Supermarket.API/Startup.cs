@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,9 +19,8 @@ using Supermarket.API.Extensions;
 using Supermarket.API.Filters;
 using Supermarket.API.Logging;
 using Supermarket.API.Repository;
-using Supermarket.API.V2.Mappings;
+using Supermarket.API.V1.Mappings;
 using Supermarket.API.Infrastructure;
-using Microsoft.AspNetCore.Rewrite;
 using System.Linq;
 using System.Reflection;
 using System.IO;
@@ -107,10 +105,10 @@ namespace Supermarket.API
                 setup.SubstituteApiVersionInUrl = true;
             });
 
-            // Swagger Gen;
+            // Swagger Gen Setup
             services.AddSwaggerGen(c =>
             {
-                // Swagger Bearer Setup -> https://stackoverflow.com/questions/43447688/setting-up-swagger-asp-net-core-using-the-authorization-headers-bearer
+                // Swagger Enable Bearer Token Auth -> https://stackoverflow.com/questions/43447688/setting-up-swagger-asp-net-core-using-the-authorization-headers-bearer
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,

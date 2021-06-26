@@ -4,14 +4,14 @@
         <name>Supermarket.API</name>
     </assembly>
     <members>
-        <member name="M:Supermarket.API.V2.Controllers.AuthorizeController.RegisterUSer(Supermarket.API.V2.Dtos.UserDto)">
+        <member name="M:Supermarket.API.V1.Controllers.AuthorizeController.RegisterUSer(Supermarket.API.V1.Dtos.UserDto)">
             <summary>
             Register an user in IdentityModels
             </summary>
             <param name="userInfo">an UserDto obj that requires essential user information</param>
             <returns></returns>
         </member>
-        <member name="M:Supermarket.API.V2.Controllers.AuthorizeController.Login(Supermarket.API.V2.Dtos.UserDto)">
+        <member name="M:Supermarket.API.V1.Controllers.AuthorizeController.Login(Supermarket.API.V1.Dtos.UserDto)">
             <summary>
             Login user checking IdentityModels
             </summary>
