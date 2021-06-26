@@ -15,10 +15,11 @@ using Supermarket.API.V2.Dtos;
 
 namespace Supermarket.API.V2.Controllers
 {
+    [ApiController]
     [Route("api/v{v:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
-    [ApiController]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class ProductsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -53,6 +54,8 @@ namespace Supermarket.API.V2.Controllers
 
         [HttpGet("{id}", Name = "ProductsGetById")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductDto>> GetById(int id)
         {
             try
@@ -73,6 +76,7 @@ namespace Supermarket.API.V2.Controllers
 
         [HttpGet("OrderByPrice")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetOrderedByPrice()
         {
             var products = await _unitOfWork.ProductRepository.GetProductsByPrice();
@@ -81,6 +85,8 @@ namespace Supermarket.API.V2.Controllers
 
         [HttpPost]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Post([FromBody] ProductDto productDto)
         {
             try
@@ -100,6 +106,7 @@ namespace Supermarket.API.V2.Controllers
 
         [HttpPut("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> Put(int id, [FromBody] ProductDto productDto)
         {
             try
@@ -124,6 +131,7 @@ namespace Supermarket.API.V2.Controllers
 
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
         public async Task<ActionResult<ProductDto>> Delete(int id)
         {
             try
@@ -145,6 +153,7 @@ namespace Supermarket.API.V2.Controllers
                 return DefaultErrorMessage(ex);
             }
         }
+
         private ActionResult DefaultErrorMessage(Exception ex, [System.Runtime.CompilerServices.CallerMemberName] string memberName = "")
         {
             _logger.LogError($"{ex.StackTrace}");

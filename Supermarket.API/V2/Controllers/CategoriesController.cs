@@ -17,10 +17,11 @@ using Supermarket.API.V2.Dtos;
 
 namespace Supermarket.API.V2.Controllers
 {
-    [ApiVersion("2.0")]
-    [Route("api/v{v:apiVersion}/[controller]")]
-    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
+    [Route("api/v{v:apiVersion}/[controller]")]
+    [ApiVersion("2.0")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class CategoriesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -37,6 +38,8 @@ namespace Supermarket.API.V2.Controllers
         [HttpGet]
         [DisableCors]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        // [ProducesResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)] replaced by [ApiConventionMethod]
+        //[ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Get))] repaced by [ApiConvetionType] -> clas attr
         public async Task<ActionResult<IEnumerable<CategoryDto>>> Get([FromQuery] PaginationParameters parameters)
         {
             try
@@ -138,6 +141,7 @@ namespace Supermarket.API.V2.Controllers
 
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
+        [ProducesResponseType(typeof(CategoryDto), StatusCodes.Status200OK)]
         public async Task<ActionResult<CategoryDto>> Delete(int id)
         {
             try

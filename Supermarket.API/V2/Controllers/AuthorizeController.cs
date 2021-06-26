@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 namespace Supermarket.API.V2.Controllers
 {
 
-    [ApiVersion("2.0")]
-    [Route("api/v{v:apiVersion}/[controller]")]
     [ApiController]
+    [Route("api/v{v:apiVersion}/[controller]")]
+    [ApiVersion("2.0")]
     public class AuthorizeController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
@@ -34,6 +34,11 @@ namespace Supermarket.API.V2.Controllers
             return $"{nameof(AuthorizeController)} :: Access: {DateTime.Now:D}";
         }
 
+        /// <summary>
+        /// Register an user in IdentityModels
+        /// </summary>
+        /// <param name="userInfo">an UserDto obj that requires essential user information</param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUSer([FromBody] UserDto userInfo)
         {
@@ -54,6 +59,11 @@ namespace Supermarket.API.V2.Controllers
             return Ok(GenerateToken(userInfo));
         }
 
+        /// <summary>
+        /// Login user checking IdentityModels
+        /// </summary>
+        /// <param name="userInfo">an UserDto obj that requires essential user information</param>
+        /// <returns>Bearer Token</returns>
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] UserDto userInfo)
         {

@@ -24,6 +24,8 @@ using Supermarket.API.V2.Mappings;
 using Supermarket.API.Infrastructure;
 using Microsoft.AspNetCore.Rewrite;
 using System.Linq;
+using System.Reflection;
+using System.IO;
 
 namespace Supermarket.API
 {
@@ -105,7 +107,13 @@ namespace Supermarket.API
             });
 
             // Swagger Gen
-            services.AddSwaggerGen();
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            services.AddSwaggerGen(opt =>
+            {
+                opt.IncludeXmlComments(xmlPath);
+            });
+
             services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
 
