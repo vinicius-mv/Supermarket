@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Rewrite;
 using System.Linq;
 using System.Reflection;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Supermarket.API
 {
@@ -106,14 +107,44 @@ namespace Supermarket.API
                 setup.SubstituteApiVersionInUrl = true;
             });
 
-            // Swagger Gen
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            services.AddSwaggerGen(opt =>
+            // Swagger Gen;
+            services.AddSwaggerGen(c =>
             {
-                opt.IncludeXmlComments(xmlPath);
-            });
+                // Swagger Bearer Setup -> https://stackoverflow.com/questions/43447688/setting-up-swagger-asp-net-core-using-the-authorization-headers-bearer
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = @"JWT Authorization header using the Bearer scheme. <br/><br/>
+                                  Enter 'Bearer' [space] and then your token in the text input below.
+                                  <br/><br/>Example: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
 
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
+
+                // Swagger Custom Docs Setup
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
             services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
 
