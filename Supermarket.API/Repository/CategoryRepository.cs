@@ -2,6 +2,7 @@
 using Supermarket.API.Pagination;
 using Supermarket.API.ResourceModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,13 +28,19 @@ namespace Supermarket.API.Repository
 
             var products = _context.Products.Where(p => categoriesIds.Contains(p.CategoryId)).AsQueryable();
 
-            var categoriesProducts = categories.Select(c => new CategoryProducts
+            IQueryable<CategoryProducts> categoriesProducts;
+            categoriesProducts = await Task<IQueryable<CategoryProducts>>.Factory.StartNew(() =>
             {
-                CategoryId = c.CategoryId,
-                Name = c.Name,
-                ImageUrl = c.ImageUrl,
-                Products = products.Where(p => p.CategoryId == c.CategoryId).ToList()
-            }).AsQueryable();
+                categoriesProducts = categories.Select(c => new CategoryProducts
+                {
+                    CategoryId = c.CategoryId,
+                    Name = c.Name,
+                    ImageUrl = c.ImageUrl,
+                    Products = products.Where(p => p.CategoryId == c.CategoryId).ToList()
+                }).AsQueryable();
+
+                return categoriesProducts;
+            });
 
             return await PagedList<CategoryProducts>.ToPagedList(categoriesProducts, parameters.PageNumber, parameters.PageSize);
         }
