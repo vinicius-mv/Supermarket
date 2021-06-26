@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Supermarket.API.Models;
 using Supermarket.API.ResourceModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Supermarket.API.V2.Dtos;
 
-namespace Supermarket.API.Dtos.Mappings
+namespace Supermarket.API.V2.Mappings
 {
     public class MappingProfile : Profile
     {

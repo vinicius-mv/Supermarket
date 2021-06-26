@@ -1,24 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Supermarket.API.Filters;
-using Supermarket.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Supermarket.API.Repository;
 using AutoMapper;
-using Supermarket.API.Dtos;
 using Supermarket.API.Pagination;
 using Microsoft.AspNetCore.Authorization;
+using Supermarket.API.Models;
+using Supermarket.API.V2.Dtos;
 
-namespace Supermarket.API.Controllers
+namespace Supermarket.API.V2.Controllers
 {
+    [Route("api/v{v:apiVersion}/[controller]")]
+    [ApiVersion("2.0")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
-    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;

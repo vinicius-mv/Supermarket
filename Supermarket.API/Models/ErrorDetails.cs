@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Supermarket.API.Models
+﻿namespace Supermarket.API.Models
 {
     public class ErrorDetails
     {

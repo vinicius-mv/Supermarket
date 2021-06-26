@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Supermarket.API.Dtos;
 using Supermarket.API.Models;
+using Supermarket.API.V2.Dtos;
 using System.Collections.Generic;
 
 namespace Supermarket.API.ResourceModels

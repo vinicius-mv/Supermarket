@@ -1,11 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Supermarket.API.Controllers;
-using Supermarket.API.Dtos;
-using Supermarket.API.Models;
+﻿using Supermarket.API.Models;
 using Supermarket.API.Pagination;
 using Supermarket.API.ResourceModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 

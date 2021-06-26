@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
-using Supermarket.API.ResourceModels;
 using Microsoft.Extensions.Logging;
 using Supermarket.API.Filters;
 using Supermarket.API.Repository;
-using Supermarket.API.Dtos;
 using AutoMapper;
 using System.Linq;
 using Supermarket.API.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Supermarket.API.V2.Dtos;
 
-namespace Supermarket.API.Controllers
+namespace Supermarket.API.V2.Controllers
 {
+    [ApiVersion("2.0")]
+    [Route("api/v{v:apiVersion}/[controller]")]
     [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
-    [Route("api/[controller]")]
     public class CategoriesController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;

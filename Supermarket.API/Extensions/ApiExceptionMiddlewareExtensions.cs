@@ -2,15 +2,11 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Supermarket.API.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Supermarket.API.Extensions
 {
-    public static  class ApiExceptionMiddlewareExtensions
+    public static class ApiExceptionMiddlewareExtensions
     {
         public static void ConfigureExceptionHandler(this IApplicationBuilder app)
         {
@@ -22,7 +18,7 @@ namespace Supermarket.API.Extensions
                     context.Response.ContentType = "application/json";
 
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
-                    if(contextFeature != null)
+                    if (contextFeature != null)
                     {
                         await context.Response.WriteAsync(new ErrorDetails()
                         {

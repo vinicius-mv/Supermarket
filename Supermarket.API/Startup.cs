@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,12 +16,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Supermarket.API.Context;
-using Supermarket.API.Dtos.Mappings;
 using Supermarket.API.Extensions;
 using Supermarket.API.Filters;
 using Supermarket.API.Logging;
-using Supermarket.API.Models;
 using Supermarket.API.Repository;
+using Supermarket.API.V2.Mappings;
+using Supermarket.API.Infrastructure;
+using Microsoft.AspNetCore.Rewrite;
+using System.Linq;
 
 namespace Supermarket.API
 {
@@ -46,6 +46,7 @@ namespace Supermarket.API
                 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));   // get Connection with new Pomelo
             });
 
+            // Identity -> define AppDbContext implements IdentityModel
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
@@ -72,9 +73,6 @@ namespace Supermarket.API
             // using System.Text.Json -> doesn't have a reference looping treatment for now, using JsonIgnoreAttribute to handle this
             //services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            services.AddSwaggerGen(c =>
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Supermarket.API", Version = "v1" }));
-
             // filter with custom logging service
             services.AddScoped<ApiLoggingFilter>();
 
@@ -91,17 +89,48 @@ namespace Supermarket.API
             services.AddCors(opt =>
                 opt.AddPolicy("MyCorsPolicy", policy =>
                     policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:4200", "http://www.apirequest.io")));
+
+            // ApiVersioning
+            services.AddApiVersioning(setup =>
+            {
+                setup.DefaultApiVersion = new ApiVersion(2, 0);
+                setup.AssumeDefaultVersionWhenUnspecified = true;
+                setup.ReportApiVersions = true;
+            });
+
+            services.AddVersionedApiExplorer(setup =>
+            {
+                setup.GroupNameFormat = "'v'VVV";
+                setup.SubstituteApiVersionInUrl = true;
+            });
+
+            // Swagger Gen
+            services.AddSwaggerGen();
+            services.ConfigureOptions<ConfigureSwaggerOptions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Supermarket.API v1"));
             }
+
+            //  Swagger
+            app.UseSwagger();
+
+            // SwaggerUI
+            //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "Supermarket.API v2"));
+
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions.Reverse())
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
