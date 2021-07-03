@@ -1,5 +1,5 @@
 ﻿using Supermarket.API.Models;
-using Supermarket.API.Pagination;
+using Supermarket.API.Helpers.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;

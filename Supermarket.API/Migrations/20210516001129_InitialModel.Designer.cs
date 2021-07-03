@@ -8,7 +8,7 @@ using Supermarket.API.Context;
 
 namespace Supermarket.API.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(SupermarketContext))]
     [Migration("20210516001129_InitialModel")]
     partial class InitialModel
     {

@@ -8,9 +8,9 @@ namespace Supermarket.API.Repository
     {
         private ProductRepository _productRepository;
         private CategoryRepository _categoryRepository;
-        private AppDbContext _context;
+        private SupermarketContext _context;
 
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(SupermarketContext context)
         {
             _context = context;
         }

@@ -10,9 +10,9 @@ namespace Supermarket.API.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected AppDbContext _context;
+        protected SupermarketContext _context;
 
-        public Repository(AppDbContext context)
+        public Repository(SupermarketContext context)
         {
             _context = context;
         }
@@ -37,17 +37,17 @@ namespace Supermarket.API.Repository
             if (predicate == null)
                 predicate = (x) => true;
 
-            return await _context.Set<T>().SingleOrDefaultAsync(predicate);
+            return await _context.Set<T>().AsNoTracking().SingleOrDefaultAsync(predicate);
         }
 
-        public async Task<IList<T>> ListBy(Expression<Func<T, bool>> predicate = null)
+        public IQueryable<T> ListBy(Expression<Func<T, bool>> predicate = null)
         {
             if (predicate == null)
                 predicate = (x) => true;
 
             var query = _context.Set<T>().Where(predicate);
 
-            return await query.ToListAsync();
+            return query.AsNoTracking();
         }
 
         public void Update(T entity)

@@ -14,7 +14,7 @@ namespace Supermarket.API
 {
     public class Program
     {
-        public async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
@@ -23,7 +23,7 @@ namespace Supermarket.API
             // seed data and apply pending migrations to the database at startup
             try
             {
-                var context = services.GetRequiredService<AppDbContext>();
+                var context = services.GetRequiredService<SupermarketContext>();
                 await context.Database.MigrateAsync(); 
                 await new SeedingService(context).Seed();
             }

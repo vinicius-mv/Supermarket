@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Supermarket.API.Repository;
 using AutoMapper;
-using Supermarket.API.Pagination;
+using Supermarket.API.Helpers.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Supermarket.API.Models;
 using Supermarket.API.V1.Dtos;
@@ -42,7 +42,7 @@ namespace Supermarket.API.V1.Controllers
                 var products = await _unitOfWork.ProductRepository.GetProducts(parameters);
 
                 var paginationHeader = JsonSerializer.Serialize(products.GetMetadata());
-                Response.Headers.Add("X-Pagination", paginationHeader);
+                Response?.Headers.Add("X-Pagination", paginationHeader);
 
                 return _mapper.Map<List<ProductDto>>(products);
             }
@@ -158,7 +158,7 @@ namespace Supermarket.API.V1.Controllers
         {
             _logger.LogError($"{ex.StackTrace}");
             _logger.LogError($"{DateTime.Now}: {ex.GetType()} - {ex.Message}");
-            return StatusCode(StatusCodes.Status500InternalServerError, $"{ex.GetType()}: error on {this.GetType().Name} - {memberName}");
+            return BadRequest($"{ex.GetType()}: error on {this.GetType().Name} - {memberName}");
         }
     }
 }

@@ -4,12 +4,16 @@ using Supermarket.API.Models;
 
 namespace Supermarket.API.Context
 {
-    public class AppDbContext : IdentityDbContext
+    public class SupermarketContext : IdentityDbContext
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public SupermarketContext(DbContextOptions<SupermarketContext> options) : base(options)
+        {
+        }
+
+        public SupermarketContext()
         {
         }
 

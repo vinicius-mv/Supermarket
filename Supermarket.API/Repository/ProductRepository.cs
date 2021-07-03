@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Supermarket.API.Models;
-using Supermarket.API.Pagination;
+using Supermarket.API.Helpers.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Supermarket.API.Repository
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
-        public ProductRepository(Context.AppDbContext context) : base(context)
+        public ProductRepository(Context.SupermarketContext context) : base(context)
         {
         }
 

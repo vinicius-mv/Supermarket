@@ -41,7 +41,7 @@ namespace Supermarket.API
         public void ConfigureServices(IServiceCollection services)
         {
             string mySqlConnection = Configuration["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<SupermarketContext>(options =>
             {
                 //options.UseSqlite(Configuration.GetConnectionString("DevConnection")); // Sqlite // old Pomelo versions
                 options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));   // get Connection with new Pomelo
@@ -49,7 +49,7 @@ namespace Supermarket.API
 
             // Identity -> define AppDbContext implements IdentityModel
             services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
+                .AddEntityFrameworkStores<SupermarketContext>()
                 .AddDefaultTokenProviders();
 
             // JWT

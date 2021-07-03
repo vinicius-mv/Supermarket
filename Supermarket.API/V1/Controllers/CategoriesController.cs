@@ -10,7 +10,7 @@ using Supermarket.API.Filters;
 using Supermarket.API.Repository;
 using AutoMapper;
 using System.Linq;
-using Supermarket.API.Pagination;
+using Supermarket.API.Helpers.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Supermarket.API.V1.Dtos;
@@ -47,7 +47,7 @@ namespace Supermarket.API.V1.Controllers
                 var categories = await _unitOfWork.CategoryRepository.GetCategories(parameters);
 
                 var paginationHeader = JsonSerializer.Serialize(categories.GetMetadata());
-                Response.Headers.Add("X-Pagination", paginationHeader);
+                Response?.Headers.Add("X-Pagination", paginationHeader);
 
                 return _mapper.Map<List<CategoryDto>>(categories);
             }
@@ -109,7 +109,7 @@ namespace Supermarket.API.V1.Controllers
                 _unitOfWork.CategoryRepository.Add(category);
                 await _unitOfWork.CommitAsync();
 
-                return new CreatedAtRouteResult("CategoriesGetById", new { id = categoryDto.CategoryId }, categoryDto);
+                return new CreatedAtRouteResult("CategoriesGetById", new { id = category.CategoryId }, categoryDto);
             }
             catch (Exception ex)
             {
@@ -129,7 +129,7 @@ namespace Supermarket.API.V1.Controllers
                     return BadRequest($"Body id: '{categoryDto.CategoryId}' and request url id '{id}' doesn't match");
                 }
                 var category = _mapper.Map<Category>(categoryDto);
-                _unitOfWork.CategoryRepository.Add(category);
+                _unitOfWork.CategoryRepository.Update(category);
                 await _unitOfWork.CommitAsync();
                 return Ok($"Category {categoryDto.Name} was updated.");
             }

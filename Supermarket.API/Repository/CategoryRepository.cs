@@ -1,5 +1,5 @@
 ﻿using Supermarket.API.Models;
-using Supermarket.API.Pagination;
+using Supermarket.API.Helpers.Pagination;
 using Supermarket.API.ResourceModels;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace Supermarket.API.Repository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
-        public CategoryRepository(Context.AppDbContext context) : base(context)
+        public CategoryRepository(Context.SupermarketContext context) : base(context)
         {
         }
 

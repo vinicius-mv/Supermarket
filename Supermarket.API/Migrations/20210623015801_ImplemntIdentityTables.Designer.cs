@@ -8,7 +8,7 @@ using Supermarket.API.Context;
 
 namespace Supermarket.API.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(SupermarketContext))]
     [Migration("20210623015801_ImplemntIdentityTables")]
     partial class ImplemntIdentityTables
     {

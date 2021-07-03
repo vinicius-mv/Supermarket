@@ -8,9 +8,9 @@ namespace Supermarket.API.Context
 {
     public class SeedingService
     {
-        private AppDbContext _context;
+        private SupermarketContext _context;
 
-        public SeedingService(AppDbContext context)
+        public SeedingService(SupermarketContext context)
         {
             _context = context;
         }
