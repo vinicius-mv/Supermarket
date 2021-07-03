@@ -45,14 +45,11 @@ namespace Supermarket.API.Repository
             if (predicate == null)
                 predicate = (x) => true;
 
-            var query = _context.Set<T>().Where(predicate);
-
-            return query.AsNoTracking();
+            return _context.Set<T>().AsNoTracking().Where(predicate);
         }
 
         public void Update(T entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
             _context.Set<T>().Update(entity);
         }
     }

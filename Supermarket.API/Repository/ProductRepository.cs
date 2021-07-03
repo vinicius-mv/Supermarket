@@ -20,9 +20,10 @@ namespace Supermarket.API.Repository
             return await PagedList<Product>.ToPagedList(products, parameters.PageNumber, parameters.PageSize);
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByPrice()
+        public async Task<PagedList<Product>> GetProductsByPrice(PaginationParameters parameters)
         {
-            return await Get().OrderBy(p => p.Price).ToListAsync();
+            var products = Get().OrderBy(p => p.Price);
+            return await PagedList<Product>.ToPagedList(products, parameters.PageNumber, parameters.PageSize);
         }
     }
 }

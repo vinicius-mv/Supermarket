@@ -77,9 +77,9 @@ namespace Supermarket.API.V1.Controllers
         [HttpGet("OrderByPrice")]
         [ServiceFilter(typeof(ApiLoggingFilter))]
         [ProducesResponseType(typeof(IEnumerable<ProductDto>), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetOrderedByPrice()
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetOrderedByPrice([FromQuery] PaginationParameters parameters)
         {
-            var products = await _unitOfWork.ProductRepository.GetProductsByPrice();
+            var products = await _unitOfWork.ProductRepository.GetProductsByPrice(parameters);
             return Ok(_mapper.Map<List<ProductDto>>(products));
         }
 

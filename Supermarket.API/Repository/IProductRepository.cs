@@ -10,6 +10,6 @@ namespace Supermarket.API.Repository
     public interface IProductRepository : IRepository<Product>
     {
         Task<PagedList<Product>> GetProducts(PaginationParameters productsParameters);
-        Task<IEnumerable<Product>> GetProductsByPrice();
+        Task<PagedList<Product>> GetProductsByPrice(PaginationParameters parameters);
     }
 }
